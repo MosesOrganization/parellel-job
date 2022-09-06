@@ -1,12 +1,29 @@
-pipeline {
-  agent any
-  stages {
-    stage ('Build') {
-      steps {
-        echo 'Running build automation'
-        sh './gradlew build --no-daemon'
-        archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+pipeline{
+	agent any 
+	stages{
+    stage('git-clone'){
+      steps{
+        checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/MosesOrganization/parellel-job.git']]])
       }
     }
-  }
+		stage('parellel-level'){
+			parellel {
+				stage('sub-job1'){
+					steps{
+						echo "sub-job1 task"
+					}
+				}
+				stage ('sub-job2'){
+					steps{
+						echo "sub-job2 task"
+					}
+				}
+			}
+		}
+		stage('version-check'){
+			steps{
+				echo "end of parellel job"
+			}
+		}
+	}
 }
