@@ -1,7 +1,7 @@
 pipeline{
-	agent any 
+	agent any
 	stages{
-    stage('git-clone'){
+	stage('git-clone'){
       steps{
         checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/MosesOrganization/parellel-job.git']]])
       }
@@ -28,5 +28,7 @@ pipeline{
 		stage('webhook-fix'){
 			steps{
 			  echo "webhook fix"
+			  }
+			}
 	}
 }
