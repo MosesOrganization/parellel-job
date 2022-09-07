@@ -6,8 +6,8 @@ pipeline{
         checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-id', url: 'https://github.com/MosesOrganization/parellel-job.git']]])
       }
     }
-		stage('parellel-level'){
-			parellel {
+		stage('parallel-level'){
+			parallel {
 				stage('sub-job1'){
 					steps{
 						echo "sub-job1 task"
@@ -22,7 +22,7 @@ pipeline{
 		}
 		stage('version-check'){
 			steps{
-				echo "end of parellel job"
+				echo "end of parallel job"
 			}
 		}
 	}
